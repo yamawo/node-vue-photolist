@@ -1,4 +1,3 @@
 build:
-	cd client && npm run build && mv dist/* ../server/static/
-run: 
-    node app.js
+	cd client && npm run build && cp -a dist/* ../static/
+
