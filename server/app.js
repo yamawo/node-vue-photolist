@@ -22,26 +22,10 @@ app.use(function(req, res, next) {
 
  
 /* 2. listen()メソッドを実行して3000番ポートで待ち受け。*/
-var server = app.listen(3000, ()=>{
+var server = app.listen(process.env.PORT ||3000, ()=>{
     console.log("Node.js is listening to PORT:" + server.address().port);
 });
 
-/* 3. 以後、アプリケーション固有の処理 */
-
-// 写真のサンプルデータ
-var photoList = [
-    {
-        id: "001",
-        name: "photo001.jpg",
-        type: "jpg",
-        dataUrl: "https://images.pexels.com/photos/1537171/pexels-photo-1537171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-    },{
-        id: "002",
-        name: "photo002.jpg",
-        type: "jpg",
-        dataUrl: "https://images.pexels.com/photos/2259232/pexels-photo-2259232.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-    }
-]
 
 // 写真リストを取得するAPI
 app.get("/api/photo/list", function(req, res){
@@ -75,6 +59,10 @@ app.delete("/api/photo/list",(req, res)=>{
             res.json(results)
         })
     })
-
-
 })
+
+app.use(express.static(__dirname + "/static/"));
+
+app.get(/.*/, function(req, res) {
+    res.sendfile(__dirname + "/static/index.html");
+});
